@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id
+  name      String
+  notebooks Notebook[]
+}
+
+model Notebook {
+  id             Int     @id @default(autoincrement())
+  code           Int
+  ram            Int
+  ddr            Int
+  hd             Int?
+  ssd            Int?
+  model          String
+  note           String?
+  resolution     String
+  inch           Float?
+  hertz          Int
+  touch          Boolean
+  system_version String
+
+  graphics_card   Graphics_Card? @relation(fields: [graphics_CardId], references: [id])
+  processor       Processor      @relation(fields: [processorId], references: [id])
+  photos          Photo[]
+  brand           Brand          @relation(fields: [brandId], references: [id])
+  system          System         @relation(fields: [systemId], references: [id])
+  User            User?          @relation(fields: [userId], references: [id])
+  systemId        Int
+  brandId         Int
+  userId          String?
+  processorId     Int
+  graphics_CardId Int?
+}
+
+model Processor {
+  id    Int    @id @default(autoincrement())
+  model String
+  clock Float
+
+  brand    Brand      @relation(fields: [brandId], references: [id])
+  brandId  Int
+  Notebook Notebook[]
+}
+
+model System {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Notebook Notebook[]
+}
+
+model Brand {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  Notebook      Notebook[]
+  Processor     Processor[]
+  Graphics_Card Graphics_Card[]
+}
+
+model Graphics_Card {
+  id    Int    @id @default(autoincrement())
+  model String
+
+  brand    Brand      @relation(fields: [brandId], references: [id])
+  brandId  Int
+  Notebook Notebook[]
+}
+
+model Photo {
+  id   Int    @id @default(autoincrement())
+  path String
+
+  Notebook   Notebook? @relation(fields: [notebookId], references: [id], onDelete: Cascade)
+  notebookId Int?
+}

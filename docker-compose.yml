@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres
+    container_name: composer_postgres
+    environment:
+       - POSTGRES_PASSWORD=1234
+       - POSTGRES_USER=localuser
+    ports:
+       - "5440:5432"
