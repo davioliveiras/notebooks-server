@@ -14,7 +14,7 @@ export async function deleteImages(paths: string[]) {
     })
 
     const input = {
-      Bucket: 'notebooks-project',
+      Bucket: 'notebooksbucket',
       Delete: {
         Objects: objects
       } 

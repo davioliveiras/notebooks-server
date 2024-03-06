@@ -19,7 +19,7 @@ export async function getById(app:FastifyInstance) {
         code: idConverted,
         userId: request.user.sub
       },
-      include:{
+      include:{        
         photos:{
           select:{
             path: true

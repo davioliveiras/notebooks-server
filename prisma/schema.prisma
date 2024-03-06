@@ -27,6 +27,7 @@ model Notebook {
   hertz          Int
   touch          Boolean
   system_version String
+  isArchived     Boolean
 
   graphics_card   Graphics_Card? @relation(fields: [graphics_CardId], references: [id])
   processor       Processor      @relation(fields: [processorId], references: [id])

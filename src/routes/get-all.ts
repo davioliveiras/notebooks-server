@@ -16,7 +16,7 @@ export async function getAll(app: FastifyInstance){
 
     const notebooks = await prisma.notebook.findMany({
       where: {
-        userId: request.user.sub
+        userId: request.user.sub        
       },
       include:{
         photos:{

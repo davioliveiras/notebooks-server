@@ -21,6 +21,7 @@ export async function insert(app: FastifyInstance){
       hertz: z.number(),
       touch: z.boolean(),
       system_version: z.string(),
+      isArchived: z.boolean(),
 
       processor: z.object({
         model: z.string(),
@@ -184,7 +185,8 @@ export async function insert(app: FastifyInstance){
         inch: notebook.inch,
         hertz: notebook.hertz,
         touch: notebook.touch,
-        system_version: notebook.system_version,
+        system_version: notebook.system_version,    
+        isArchived: notebook.isArchived,    
 
         processorId: tables.processorId,
         systemId: tables.systemId,        

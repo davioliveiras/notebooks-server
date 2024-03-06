@@ -14,7 +14,12 @@ const user = z.object({
 })
 
 const requestHeaders = z.object({
-  rawHeaders: z.array(z.string())
+  rawHeaders: z.array(z.string()),
+  // body: z.string()
+})
+
+const corpo = z.object({
+  body: z.string()
 })
 
 const s3 = multerS3({
@@ -23,6 +28,7 @@ const s3 = multerS3({
   acl: 'public-read',
   key: function (request, file, callback) {
 
+    console.log(request)
     let token = ''
 
     const authorization = requestHeaders.parse(request)
