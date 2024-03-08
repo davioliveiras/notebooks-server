@@ -26,6 +26,7 @@ const s3 = multerS3({
   s3: clientAmazon,
   bucket: 'notebooksbucket',
   acl: 'public-read',
+  contentType: multerS3.AUTO_CONTENT_TYPE,
   key: function (request, file, callback) {
 
     console.log(request)

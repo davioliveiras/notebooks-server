@@ -15,6 +15,7 @@ export async function getAll(app: FastifyInstance){
     // const { id } = paramsSchema.parse(request.params)
 
     const notebooks = await prisma.notebook.findMany({
+      orderBy: {code: 'asc'},
       where: {
         userId: request.user.sub        
       },
