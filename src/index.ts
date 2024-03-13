@@ -29,6 +29,6 @@ app.register(getById)
 app.register(auth)
 app.register(update)
 
-app.listen({ port: port, host: '0.0.0.0'}, () => {
-  console.log('server => http://192.168.15.50:3333')
+app.listen({ port: process.env.PORT ? Number(process.env.PORT) : port, host: '0.0.0.0'}, () => {
+  console.log('server running')
 })

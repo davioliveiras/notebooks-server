@@ -40,7 +40,11 @@ export default async function VerifyTables(brandParams: brand, systemParams: sys
 
   let noteProcessor = await prisma.processor.findFirst({
     where: {
-      model: processorParams.model
+      model: processorParams.model,
+      brand:{
+        name: processorParams.brand.name
+      },
+      clock: processorParams.clock
     }
   })
 
@@ -91,6 +95,9 @@ export default async function VerifyTables(brandParams: brand, systemParams: sys
   if(cardParams){
     let graphicsCard = await prisma.graphics_Card.findFirst({
       where: {
+        brand: {
+          name: cardParams.brand.name
+        },
         model: cardParams.model
       }
     })
