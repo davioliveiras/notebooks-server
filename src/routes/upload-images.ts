@@ -7,7 +7,7 @@ import jwt_decode from 'jwt-decode'
 import isJwtTokenExpired from 'jwt-check-expiry'
 
 let name: string
-let paths: string[] = []
+let paths: {path: string}[] = []
 
 const user = z.object({
   sub: z.string(),
@@ -16,10 +16,6 @@ const user = z.object({
 const requestHeaders = z.object({
   rawHeaders: z.array(z.string()),
   // body: z.string()
-})
-
-const corpo = z.object({
-  body: z.string()
 })
 
 const s3 = multerS3({
@@ -50,7 +46,7 @@ const s3 = multerS3({
 
         name = Date.now().toString()
         file.mimetype.includes('png') ? name = name + '.png' : name = name + '.jpg'    
-        paths.push(userIdDecoded.sub + '/' + name)
+        paths.push({path: userIdDecoded.sub + '/' + name})
         callback(null, userIdDecoded.sub + '/' + name)
       }else{
         callback('Invalid token')

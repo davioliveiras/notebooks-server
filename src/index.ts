@@ -12,14 +12,15 @@ import { update } from './routes/update'
 
 const port = 3333
 const app = fastify()
-const cors = ['http://192.168.15.50:5173', 'http://localhost:5173', 'http://localhost:4173', 'https://notebooks-web-vercel-vxzz.vercel.app']
+const cors = ['http://192.168.15.50:5173', 'http://localhost:5173', 
+'http://localhost:4173', 'https://notebooks-web-deploy.vercel.app']
 
 app.register(fastifyCors, {origin: cors})
 app.register(jwt, {
   secret: 'secretgarden'
 })
 app.register(fastifyExpress).after(() => {
-  app.use(expressApp) // images upload
+  app.use(expressApp)
 })
 
 app.register(insert)

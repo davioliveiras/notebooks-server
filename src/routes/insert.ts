@@ -46,7 +46,10 @@ export async function insert(app: FastifyInstance){
         }),
       }).nullable(),
       
-      photos: z.array(z.string())
+      // photos: z.array(z.string()),
+      photos: z.array(z.object({
+        path: z.string()
+      })) 
     })
 
     const notebook = bodySchema.parse(request.body)
@@ -64,110 +67,6 @@ export async function insert(app: FastifyInstance){
     }
 
     const tables = await VerifyTables(notebook.brand, notebook.system, notebook.processor, notebook.graphics_card)
-
-    // // MARCA DO NOTEBOOK //
-
-    // let noteBrand = await prisma.brand.findFirst({
-    //   where: {
-    //     name: notebook.brand.name,
-    //   }
-    // })
-
-    // if(!noteBrand){
-    //   noteBrand = await prisma.brand.create({
-    //     data:{
-    //       name: notebook.brand.name
-    //     }
-    //   })
-    // }
-
-    // // PROCESSADOR //
-
-    // let processor = await prisma.processor.findFirst({
-    //   where: {
-    //     model: notebook.processor.model
-    //   }
-    // })
-
-    // if(!processor){
-    //   let processorBrand = await prisma.brand.findFirst({
-    //     where: {
-    //       name: notebook.processor.brand.name,
-    //     }
-    //   })
-  
-    //   if(!processorBrand){
-    //     processorBrand = await prisma.brand.create({
-    //       data:{
-    //         name: notebook.processor.brand.name
-    //       }
-    //     })
-    //   }
-
-    //   processor = await prisma.processor.create({
-    //     data: {
-    //       model: notebook.processor.model,
-    //       clock: notebook.processor.clock,
-    //       brandId: processorBrand.id
-    //     }
-    //   })
-    // }
-
-    // // SISTEMA //
-
-    // let system = await prisma.system.findFirst({
-    //   where: {
-    //     name: notebook.system.name
-    //   }
-    // })
-
-    // if(!system){
-    //   system = await prisma.system.create({
-    //     data:{
-    //       name: notebook.system.name,
-    //     }
-    //   })
-    // }
-
-    // // PLACA DE VÍDEO //
-
-    // let cardId
-
-    // if(notebook.graphics_card){
-    //   let graphicsCard = await prisma.graphics_Card.findFirst({
-    //     where: {
-    //       model: notebook.graphics_card.model
-    //     }
-    //   })
-
-    //   if(!graphicsCard){
-    //     let graphicsBrand = await prisma.brand.findFirst({
-    //       where: {
-    //         name: notebook.graphics_card.brand.name
-    //       }
-    //     })
-
-    //     if(!graphicsBrand){
-    //       graphicsBrand = await prisma.brand.create({
-    //         data: {
-    //           name: notebook.graphics_card.brand.name
-    //         }
-    //       })
-    //     }
-        
-    //     graphicsCard = await prisma.graphics_Card.create({
-    //       data:{
-    //         model: notebook.graphics_card.model,
-    //         brandId: graphicsBrand.id
-    //       }
-    //     })
-    //   }
-
-    //   cardId = graphicsCard.id
-    // }
-    // else{
-    //   cardId = null
-    // }
 
     console.log(request)
 
@@ -198,7 +97,7 @@ export async function insert(app: FastifyInstance){
     notebook.photos.forEach(async (photo) => {
       await prisma.photo.create({
         data:{
-          path: photo,
+          path: photo.path,
           notebookId: noteCreated.id
         }
       })

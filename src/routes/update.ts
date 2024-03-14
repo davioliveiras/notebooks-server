@@ -47,7 +47,10 @@ export async function update(app: FastifyInstance){
         }),
       }).nullable(),
       
-      photos: z.array(z.string())
+      // photos: z.array(z.string()),
+      photos: z.array(z.object({
+        path: z.string()
+      }))      
     })
 
     const notebook = bodySchema.parse(request.body)
@@ -88,7 +91,7 @@ export async function update(app: FastifyInstance){
       },
     })
     
-    if(notebook.photos[0] != ''){
+    if(notebook.photos[0].path != ''){
 
       const photos = await prisma.photo.findMany({
         where: {
@@ -113,7 +116,7 @@ export async function update(app: FastifyInstance){
       notebook.photos.forEach(async (photo) => {
         await prisma.photo.createMany({
           data:{
-            path: photo,
+            path: photo.path,
             notebookId: notebook.id
           }
         })
